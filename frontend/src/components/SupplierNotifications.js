@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useOrder } from '../Context/OrderContext';
 import './SupplierNotifications.css'; // ✅ Import CSS
-
+import { Navigate, useNavigate } from 'react-router-dom';
 const SupplierNotifications = () => {
+    const navigate=useNavigate()
   const { orderDetails, setOrderDetails } = useOrder();
   const [supplierPrices, setSupplierPrices] = useState({});
 
@@ -17,6 +18,7 @@ const SupplierNotifications = () => {
         });
 
         setOrderDetails(response.data.orders);
+       
       } catch (error) {
         console.log('Error fetching orders:', error);
       }
@@ -42,11 +44,12 @@ const SupplierNotifications = () => {
   };
 
   const handleSubmitPrices = (orderId) => {
+   
+    console.log('order_id: ',orderDetails)
     const prices = supplierPrices[orderId];
     if (!prices) return alert('Please enter prices before submitting.');
-
-    console.log('Submitted Prices for Order', orderId, prices);
     alert(`Prices for Order ${orderId} submitted successfully!`);
+    navigate('/Buyer-notification')
   };
 
   return (
@@ -66,7 +69,7 @@ const SupplierNotifications = () => {
                 <li key={idx} className="item-card">
                   <p><strong>Item:</strong> {item.item_name}</p>
                   <p><strong>Quantity:</strong> {item.quantity}</p>
-                  <p><strong>Original Total Price:</strong> ${item.item_total_price}</p>
+                  <p><strong>Original Total Price:</strong> £{item.item_total_price}</p>
                   <div className="price-input-wrapper">
                     <label><strong>Your Price:</strong></label>
                     <input
@@ -86,7 +89,7 @@ const SupplierNotifications = () => {
               ))}
             </ul>
 
-            <p className="total-price">💰 Total Your Price: ${calculateOrderTotal(order.order_id)}</p>
+            <p className="total-price">💰 Total Your Price: £{calculateOrderTotal(order.order_id)}</p>
             <button
               onClick={() => handleSubmitPrices(order.order_id)}
               className="submit-button"
