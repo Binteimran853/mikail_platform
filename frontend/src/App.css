@@ -1,0 +1,375 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+/* Header Styles */
+.App-header {
+  position: relative;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.App-header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.App-header p {
+  color: #61dafb;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+/*Logout Container*/
+.logout-container{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Logout Button */
+.logout-button {
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #e63946;
+}
+
+.logout-button:focus {
+  outline: none;
+}
+
+/* Main Container for Layout */
+.menu-page-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr; /* 4 columns: Categories, Items, Empty, Cart */
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Categories Section */
+.categories-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.category-button:hover {
+  background-color: #00408d;
+}
+
+/* Items Section */
+.items-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.item-button-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.item-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.item-button:hover {
+  background-color: #45a049;
+}
+
+/* Empty Column */
+.empty-column {
+ min-width: 100px;
+ background-color: transparent;
+}
+
+/* Cart Section */
+.cart-column {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart h3 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Cart Items */
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.cart-item span {
+  font-weight: bold;
+  margin: 0 10px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Cart Item Buttons */
+.cart-item button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  margin: 0 5px;
+}
+
+.cart-item .minus {
+  background-color: #f44336;
+}
+
+.cart-item .plus {
+  background-color: #4CAF50;
+}
+
+.cart-item button:hover {
+  background-color: #00408d;
+}
+
+.cart-item .minus:hover {
+  background-color: #e53935;
+}
+
+.cart-item .plus:hover {
+  background-color: #45a049;
+}
+
+/* Cart Actions */
+.cart button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.cart button:hover {
+  background-color: #0056b3;
+}
+
+/* Form Container */
+.form-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 20px;
+}
+
+/* Form Heading */
+h2 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Input Group */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #00408d;
+}
+
+p {
+  text-align: center;
+  color: green;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.print-label {
+  background-color: #0056b3;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto; /* Make the width auto to match the button size */
+  margin-top: 20px;
+  font-size: 16px;
+  display: inline-block; /* Align with other buttons */
+  text-align: center; /* Center the text inside */
+}
+
+.print-label:hover {
+  background-color: #00408d;
+}
+
+.print-label:focus {
+  outline: none; /* Ensure no outline when focused */
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .App-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .menu-page-container {
+    grid-template-columns: 1fr; /* Stack columns on mobile */
+  }
+
+  .items-grid {
+    grid-template-columns: 1fr; /* 1 item per row on mobile */
+  }
+
+  .form-container {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-button {
+    width: 100%;
+  }
+
+  .category-container,
+  .items-container,
+  .cart {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .category-button,
+  .item-button {
+    width: 100%;
+  }
+}
+
+/* Message Display */
+.message {
+  text-align: center;
+  font-size: 16px;
+  color: #f44336;
+  margin-top: 20px;
+}
+
+.message.success {
+  color: green;
+}
+
+.message.error {
+  color: red;
+}
