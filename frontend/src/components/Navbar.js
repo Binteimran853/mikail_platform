@@ -6,10 +6,10 @@ import { useUser } from '../Context/UserContext';
 
 const Navbar = () => {
   const {
-    isLoggedIn, setIsLoggedIn,
+     setIsLoggedIn,
     username, setUsername,
     userRole, setUserRole,
-    userEmail, setUserEmail
+     setUserEmail
   } = useUser();
 
   const navigate = useNavigate();

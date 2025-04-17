@@ -5,11 +5,11 @@ import { useUser } from '../Context/UserContext';
 const LoginPage = () => {
 
   const {
-    isLoggedIn, setIsLoggedIn,
-    username, setUsername,
-    userRole, setUserRole,
-    userEmail, setUserEmail,
-    userPassword, setUserPassword
+    setIsLoggedIn,
+   setUsername,
+     setUserRole,
+    setUserEmail
+    , setUserPassword
   } = useUser();
 
   const navigate = useNavigate();

@@ -1,14 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useOrder } from '../Context/OrderContext';
-import './SupplierNotifications.css'; // ✅ Import CSS
-import { useUser } from '../Context/UserContext';
-const SupplierNotifications = () => {
-  const {
-   
-    userRole, setUserRole,
+import './SupplierNotifications.css'; //  Import CSS
 
-  } = useUser();
+const SupplierNotifications = () => {
+
   const { orderDetails, setOrderDetails } = useOrder();
   const [supplierPrices, setSupplierPrices] = useState({});
 
@@ -29,7 +25,7 @@ const SupplierNotifications = () => {
     };
 
     getOrders();
-  }, []);
+  }, [orderDetails]);
 
   const handlePriceChange = (orderId, itemId, value) => {
     setSupplierPrices((prev) => ({

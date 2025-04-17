@@ -4,10 +4,10 @@ import { useUser } from '../Context/UserContext';
 const BuyerProfile = () => {
     const {
       
-      username, setUsername,
-      userRole, setUserRole,
-      userEmail, setUserEmail,
-      userPassword, setUserPassword
+      username,
+     
+      userEmail, 
+      userPassword
     } = useUser();
   const [orders, setOrders] = useState([]);
   const [message, setMessage] = useState('');

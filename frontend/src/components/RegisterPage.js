@@ -4,11 +4,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../Context/UserContext';
 const RegisterPage = () => {
     const {
-      isLoggedIn, setIsLoggedIn,
-      username, setUsername,
-      userRole, setUserRole,
-      userEmail, setUserEmail,
-      userPassword, setUserPassword
+       setIsLoggedIn,
+      setUsername,
+       setUserRole,
+     setUserEmail,
+    setUserPassword
     } = useUser();
   
   const navigate = useNavigate();

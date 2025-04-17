@@ -7,8 +7,8 @@ import '../styles.css';
 
 const MenuPage = () => {
     const {
-      isLoggedIn, setIsLoggedIn,
-      userRole, setUserRole,
+      
+      userRole
       
     } = useUser();
   const [selectedCategory, setSelectedCategory] = useState('Popular Dish');
@@ -110,6 +110,7 @@ const MenuPage = () => {
           }
         }
       );
+      console.log(response)
       const response2 = await axios.post('http://localhost:8000/api/order-send-suppliers/', {},
 
         {

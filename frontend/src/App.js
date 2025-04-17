@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MenuPage from './components/MenuPage';
 import LoginPage from './components/LoginPage';
@@ -14,11 +14,8 @@ import './styles.css';
 
 function App() {
   const {
-    isLoggedIn, setIsLoggedIn,
-    username, setUsername,
-    userRole, setUserRole,
-    userEmail, setUserEmail,
-    userPassword, setUserPassword
+    isLoggedIn, 
+    userRole, 
   } = useUser();
   
   return (

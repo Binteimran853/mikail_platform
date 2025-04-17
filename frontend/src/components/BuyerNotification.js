@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
-import { useOrder } from '../Context/OrderContext';
+// import React, { useEffect } from 'react';
+// import { useOrder } from '../Context/OrderContext';
 import './SupplierNotifications.css'; // Reuse styling from SupplierNotifications
-import { useUser } from '../Context/UserContext';
-const BuyerNotification = () => {
-    const {
- 
-      userRole, setUserRole,
-   
-    } = useUser();
-  const { orderDetails, setOrderDetails } = useOrder();
 
-  useEffect(() => {
-    const storedOrders = localStorage.getItem('orderDetails');
-    if (storedOrders) {
-      setOrderDetails(JSON.parse(storedOrders));
-    }
-  }, [setOrderDetails]); // Dependency added
+const BuyerNotification = () => {
+
+  // const { orderDetails, setOrderDetails } = useOrder();
+
+  // useEffect(() => {
+  //   const storedOrders = localStorage.getItem('orderDetails');
+  //   if (storedOrders) {
+  //     setOrderDetails(JSON.parse(storedOrders));
+  //   }
+  // }, [setOrderDetails]); // Dependency added
 
   return (
     <div className="notifications-container">
