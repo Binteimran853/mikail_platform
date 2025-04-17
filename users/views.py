@@ -138,7 +138,8 @@ class OrderSendSupplier(APIView):
 
     def post(self, request):
         buyer = request.user
-
+        print("buyer_id: ",buyer.id)
+        buyer_id = buyer.id  
         # # Get the latest order
         latest_order = Order.objects.latest('id')
         print(f"Latest Order: {latest_order}")
@@ -159,20 +160,24 @@ class OrderSendSupplier(APIView):
                     supplier=supplier,
                     order_item=item,
                     buyer=buyer
+                    
                 )
 
-        return Response({'message': 'Order sent to all suppliers!'}, status=status.HTTP_200_OK)
+        return Response({
+            'message': 'Order sent to all suppliers!',
+            'buyer_id': buyer_id  # send it to the frontend
+        }, status=status.HTTP_200_OK)
 # get orders on suppliers profile
 class GetOrders(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request,buyer_id,order_id):
         supplier = request.user
-
+        print('supplier id: ',supplier,'buyer_id: ',buyer_id)
         # Only get SentOrderItems for this supplier
-        sent_items = SentOrderItem.objects.filter(supplier=supplier).select_related(
-            'supplier', 'order_item__order', 'buyer'
-        )
+        sent_items = SentOrderItem.objects.filter(
+            supplier=supplier, buyer__id=buyer_id
+        ).select_related('supplier', 'order_item__order', 'buyer')
 
         if not sent_items.exists():
             return Response({'message': 'No Orders Yet!'}, status=status.HTTP_200_OK)
@@ -190,23 +195,24 @@ class GetOrders(APIView):
         for item in sent_items:
             order_id = item.order_item.order.id
             grouped = grouped_orders[order_id]
+            print(item.buyer.id)
             grouped.update({
                 'order_id': order_id,
                 'buyer_id': item.buyer.id,
-                'buyer_username': item.buyer.username,
                 'order_status': item.order_item.order.status,
                 'order_total_price': item.order_item.order.total_price,
                 'sent_at': item.sent_at,
             })
+
             grouped['items'].append({
                 'item_name': item.order_item.item_name,
                 'quantity': item.order_item.quantity,
                 'supplier_price': item.order_item.supplier_price,
                 'item_total_price': item.order_item.quantity * item.order_item.supplier_price,
                 'order_item_id': item.order_item.id,
-                'supplier_id': item.supplier.id,
                 'supplier_username': item.supplier.username,
             })
+
 
         return Response({
             'message': 'Order details fetched successfully!',
@@ -219,19 +225,23 @@ class OfferOrderAPIView(APIView):
         # Supplier submits an offer for a specific order
     
         order = get_object_or_404(Order, id=order_id) #correct
+        
+        buyer= order.buyer
+
         supplier = request.user     #correct
         price = request.data.get('price')  #correct
         estimated_delivery_time = request.data.get('estimated_delivery_time') #correct
-        buyer=SentOrderItem.objects.filter(supplier=supplier).first().buyer
+        print(buyer)
+        # buyer=SentOrderItem.objects.filter(supplier=supplier).first().buyer
         # Create a new offer for the order
-        offer = Offer.objects.create(
-            order=order,
-            supplier=supplier,
-            buyer=buyer,
-            price=price,
-            estimated_delivery_time=estimated_delivery_time,
-        )
-        # serialized_offer = OfferSerializer(offer)
+        # offer = Offer.objects.create(
+        #     order=order,
+        #     supplier=supplier,
+        #     buyer=buyer,
+        #     price=price,
+        #     estimated_delivery_time=estimated_delivery_time,
+        # )
+        # # serialized_offer = OfferSerializer(offer)
         return Response({
             "message": "Offer submitted successfully",
             

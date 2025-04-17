@@ -75,8 +75,9 @@ const RegisterPage = () => {
     if (validateForm()) {
       try {
         const response = await axios.post('http://localhost:8000/api/register/', formData);
+
         const { user } = response.data;
-        console.log(user)
+        console.log('user after Registration: ',user)
         // Set user context
         setIsLoggedIn(true);
         setUsername(user.username);

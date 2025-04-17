@@ -28,6 +28,7 @@ const LoginPage = () => {
         localStorage.setItem('refresh_token', response.data.refresh);
         setIsLoggedIn(true);
         const user = response.data.user;
+        console.log(user.id)
         setUsername(user.username);
         setUserEmail(user.email); 
         setUserRole(user.role)

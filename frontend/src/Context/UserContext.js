@@ -8,6 +8,8 @@ export const UserProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userRole, setUserRole] = useState('');
   const [userPassword, setUserPassword] = useState(''); // if needed
+  const [buyer_id,setbuyer_id]=useState('')
+  const [order_id,setOrder_id]=useState('')
 
   return (
     <UserContext.Provider value={{
@@ -15,7 +17,8 @@ export const UserProvider = ({ children }) => {
       username, setUsername,
       userEmail, setUserEmail,
       userRole, setUserRole,
-      userPassword, setUserPassword
+      userPassword, setUserPassword,
+      buyer_id,setbuyer_id,order_id,setOrder_id
     }}>
       {children}
     </UserContext.Provider>

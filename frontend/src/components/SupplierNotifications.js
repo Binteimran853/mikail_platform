@@ -2,30 +2,34 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useOrder } from '../Context/OrderContext';
 import './SupplierNotifications.css'; //  Import CSS
-
+import { useUser } from '../Context/UserContext';
 const SupplierNotifications = () => {
-
+  const {
+      
+    buyer_id,order_id
+      
+    } = useUser();
   const { orderDetails, setOrderDetails } = useOrder();
   const [supplierPrices, setSupplierPrices] = useState({});
 
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/notificationOrders/', {
+        const response = await axios.get(`http://localhost:8000/api/notificationOrders/${buyer_id}/${order_id}/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           },
         });
-
+  
+        console.log(`Fetched Orders for buyer ${buyer_id}:`, response.data);
         setOrderDetails(response.data.orders);
-
       } catch (error) {
         console.log('Error fetching orders:', error);
       }
     };
-
+  
     getOrders();
-  }, [orderDetails]);
+  }, []);
 
   const handlePriceChange = (orderId, itemId, value) => {
     setSupplierPrices((prev) => ({

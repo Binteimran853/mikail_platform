@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('orders/', CreateOrderAPIView.as_view(), name='create-order'),
     path('order-send-suppliers/',OrderSendSupplier.as_view(),name='order-to-supplier'),
-    path('notificationOrders/',GetOrders.as_view(),name='get-orders'),
+    path('notificationOrders/<int:buyer_id>//<int:order_id>/',GetOrders.as_view(),name='get-orders'),
     path('orders/<int:order_id>/offers/', OfferOrderAPIView.as_view(), name='submit-offer'),
     path('orders/<int:order_id>/confirm/', ConfirmOrderAPIView.as_view(), name='confirm-order'),
 ]

@@ -8,9 +8,10 @@ import '../styles.css';
 const MenuPage = () => {
     const {
       
-      userRole
+      userRole,setbuyer_id,order_id,setOrder_id
       
     } = useUser();
+  
   const [selectedCategory, setSelectedCategory] = useState('Popular Dish');
   const [cart, setCart] = useState([]);
   const [newItemName, setNewItemName] = useState('');
@@ -120,9 +121,10 @@ const MenuPage = () => {
           }
         }
       )
-
-      console.log("Success:", response2.data);
-
+      setbuyer_id(response2.data.buyer_id)
+      setOrder_id(response2.data.order_id)
+      console.log("Success:", response2.data.buyer_id);
+      
 
      alert('Order Send to supplier')
       console.log('Order sent to supplier:', response);
