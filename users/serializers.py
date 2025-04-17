@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Order, OrderItem
+from .models import Order, OrderItem,Offer
 from django.contrib.auth.models import User
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,5 +13,15 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['user', 'total_price', 'status', 'items']
 
-
-
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = [
+            'id',
+            'order',
+            'supplier',
+            'buyer',
+            'price',
+            'estimated_delivery_time',
+            'status'
+        ] # list only the fields you want to include

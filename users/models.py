@@ -54,8 +54,10 @@ class SentOrderItem(models.Model):
 
 # Offer model for suppliers to submit offers
 class Offer(models.Model):
+   
     order = models.ForeignKey(Order, related_name='offers', on_delete=models.CASCADE)
-    supplier = models.ForeignKey(User, related_name='offers', on_delete=models.CASCADE)
+    supplier = models.ForeignKey(User, related_name='offers_by_supplier', on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, related_name="offers_get_by_buyer", on_delete=models.CASCADE)  # Added ForeignKey for the buyer
     price = models.DecimalField(max_digits=10, decimal_places=2)
     estimated_delivery_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(

@@ -1,8 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
-const RegisterPage = ({ setIsLoggedIn, setUsername, setUserRole, setUserEmail, setUserPassword }) => {
+import { useUser } from '../Context/UserContext';
+const RegisterPage = () => {
+    const {
+      isLoggedIn, setIsLoggedIn,
+      username, setUsername,
+      userRole, setUserRole,
+      userEmail, setUserEmail,
+      userPassword, setUserPassword
+    } = useUser();
+  
   const navigate = useNavigate();
 
   // State for form inputs
@@ -62,32 +70,26 @@ const RegisterPage = ({ setIsLoggedIn, setUsername, setUserRole, setUserEmail, s
 
   // Handle registration
   const handleRegister = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    // Validate the form
+    e.preventDefault();
+  
     if (validateForm()) {
-
-      // Simulate registration logic (e.g., API call)
       try {
-        const response = await axios.post('http://localhost:8000/api/register/', formData,
-
-        )
-        // Update login state, username, and role
+        const response = await axios.post('http://localhost:8000/api/register/', formData);
+        const { user } = response.data;
+        console.log(user)
+        // Set user context
         setIsLoggedIn(true);
-        setUsername(formData.username);
-        setUserRole(formData.role); // Pass the selected role to the parent component
-        setUserEmail(formData.email)
+        setUsername(user.username);
+        setUserEmail(user.email);
+        setUserRole(user.role);
         setUserPassword(formData.password)
-
+        navigate('/login'); // or wherever you want after auto-login
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
-        console.log(error)
-      }
-      // Redirect to the menu page
-      navigate('/login');
     }
   };
-
+  
   return (
     <div className="registration-container">
       {/* Title */}

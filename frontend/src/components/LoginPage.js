@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const LoginPage = ({ setIsLoggedIn, setUsername,setUserEmail,setUserRole }) => {
+import { useUser } from '../Context/UserContext';
+const LoginPage = () => {
+
+  const {
+    isLoggedIn, setIsLoggedIn,
+    username, setUsername,
+    userRole, setUserRole,
+    userEmail, setUserEmail,
+    userPassword, setUserPassword
+  } = useUser();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -17,8 +27,11 @@ const LoginPage = ({ setIsLoggedIn, setUsername,setUserEmail,setUserRole }) => {
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
         setIsLoggedIn(true);
-        setUsername(formData.username);
-        console.log('formData: ',formData)
+        const user = response.data.user;
+        setUsername(user.username);
+        setUserEmail(user.email); 
+        setUserRole(user.role)
+        setUserPassword(formData.password)
         navigate('/menu');
       }
     } catch (error) {
@@ -35,10 +48,10 @@ const LoginPage = ({ setIsLoggedIn, setUsername,setUserEmail,setUserRole }) => {
         <h2 className="form-title">Login</h2>
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="input-group">
-            <label>Username:</label>
+          <label>Username or Email:</label>
             <input
               type="text"
-              placeholder="Enter your username"
+              placeholder="Enter your username/email"
               value={formData.username}
               onChange={(e) =>
                 setFormData({ ...formData, username: e.target.value })

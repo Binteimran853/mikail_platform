@@ -2,9 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useOrder } from '../Context/OrderContext';
 import './SupplierNotifications.css'; // ✅ Import CSS
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useUser } from '../Context/UserContext';
 const SupplierNotifications = () => {
-    const navigate=useNavigate()
+  const {
+   
+    userRole, setUserRole,
+
+  } = useUser();
   const { orderDetails, setOrderDetails } = useOrder();
   const [supplierPrices, setSupplierPrices] = useState({});
 
@@ -18,7 +22,7 @@ const SupplierNotifications = () => {
         });
 
         setOrderDetails(response.data.orders);
-       
+
       } catch (error) {
         console.log('Error fetching orders:', error);
       }
@@ -43,14 +47,53 @@ const SupplierNotifications = () => {
     return Object.values(order).reduce((sum, val) => sum + val, 0).toFixed(2);
   };
 
-  const handleSubmitPrices = (orderId) => {
-   
-    console.log('order_id: ',orderDetails)
+  // SENDS NOTIFICATIONS TO BUYERS IN THEIR NOTIFICATION SECTION
+  const handleSubmitPrices = async (orderId) => {
     const prices = supplierPrices[orderId];
-    if (!prices) return alert('Please enter prices before submitting.');
-    alert(`Prices for Order ${orderId} submitted successfully!`);
-    navigate('/Buyer-notification')
+
+    if (!prices) {
+      return alert('Please enter prices before submitting.');
+    }
+
+    // Update orderDetails by embedding supplierPrices into the specific order
+    const updatedOrders = orderDetails.map((order) => {
+      if (order.order_id === orderId) {
+        return {
+          ...order,
+          supplier_price: supplierPrices, // ✅ Add supplierPrices into the order
+        };
+      }
+      return order;
+    });
+
+    // Update the context state
+    setOrderDetails(updatedOrders);
+
+
+    
+    const estimatedDeliveryTime = new Date(); // gets current PC date & time
+
+    try {
+      await axios.post(
+        `http://localhost:8000/api/orders/${orderId}/offers/`,
+        {
+          order_id: orderId,                // Add order_id 
+          price: parseFloat(calculateOrderTotal(orderId)),    // Send total price only 
+          estimated_delivery_time: estimatedDeliveryTime.toISOString(),
+        }, 
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+      alert(`Prices for Order ${orderId} submitted successfully!`);
+    } catch (error) {
+      console.error('Error submitting supplier prices:', error);
+      alert('Error submitting prices. Please try again.');
+    }
   };
+
 
   return (
     <div className="notifications-container">

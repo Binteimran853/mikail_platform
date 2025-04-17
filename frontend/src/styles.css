@@ -324,10 +324,72 @@ button:hover {
    4. LANDING PAGE
    ========================================================================== 
 */
-
- 
-.landing-page {
+/* Default for PC (larger screens) */
+.landing-page-PC {
   display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+/* Auth Section - Left side on PC */
+.auth-section {
+  flex: 1;
+  display: flex;
+  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-section h1 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.auth-section p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Buttons for Login and Register */
+.auth-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+/* Image Gallery Section - Right side on PC */
+.image-gallery {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.image-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/*
+ ==========================================================================
+   LANDING PAGE MOBILE (hidden on larger screens)
+ ========================================================================== 
+*/
+
+.landing-page-mobile {
+  display: none; /* Hidden by default on larger screens */
   flex-direction: column;
   width: 100%;
   height: 100%;
@@ -339,6 +401,7 @@ button:hover {
 .center-section {
   margin: 40px 0;
 }
+
 .center-section h1 {
   font-size: 2rem;
   margin-bottom: 15px;
@@ -349,9 +412,10 @@ button:hover {
   margin-bottom: 25px;
   color: #555;
 }
-  
+
 .auth-buttons {
   display: flex;
+  
   justify-content: center;
   gap: 15px;
 }
@@ -364,6 +428,7 @@ button:hover {
   transition: background-color 0.3s ease;
   color: white;
 }
+
 .login-button {
   background-color: #007bff;
 }
@@ -381,7 +446,6 @@ button:hover {
 }
 
 .image-row {
-   
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -391,22 +455,29 @@ button:hover {
 }
 
 .image-row img {
- 
   max-width: 300px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/*
+/* 
  ==========================================================================
-   5. RESPONSIVE DESIGN
-   ========================================================================== 
+   RESPONSIVE DESIGN 
+ ========================================================================== 
 */
-/* Responsive tweaks */
 
-
+/* Media query for smaller devices */
 @media (max-width: 768px) {
+  /* Show mobile layout on small devices */
+  .landing-page-PC {
+    display: none; /* Hide the PC layout on small screens */
+  }
 
+  .landing-page-mobile {
+    display: flex; /* Show the mobile layout */
+  }
+
+  /* Adjust the mobile layout for smaller screens */
   .image-row {
     flex-direction: column;
     align-items: center;
@@ -414,39 +485,12 @@ button:hover {
 
   .auth-buttons {
     flex-direction: column;
-   align-items: center;
+    align-items: center;
   }
 
   .auth-buttons a {
     width: 100%;
     max-width: 200px;
-  }
-  .header-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-  }
-
-  .logout-button,
-  .add-item-button {
-    width: 100%;
-    text-align: center;
-  }
-
-  .menu-page-container {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .categories-column,
-  .items-column,
-  .cart-column {
-    width: 100%;
-  }
-
-  .items-grid {
-    grid-template-columns: 1fr;
   }
 }
 

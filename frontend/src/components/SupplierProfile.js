@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
-const SupplierProfile = ({ username, userEmail }) => {
+import { useUser } from '../Context/UserContext';
+const SupplierProfile = () => {
+    const {
+     
+      username, setUsername,
+      
+      userEmail, setUserEmail,
+    
+    } = useUser();
+    
   const [orders, setOrders] = useState([]);
 
 

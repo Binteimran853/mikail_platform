@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
-const BuyerProfile = ({username,userRole,userEmail,userPassword}) => {
+import { useUser } from '../Context/UserContext';
+const BuyerProfile = () => {
+    const {
+      
+      username, setUsername,
+      userRole, setUserRole,
+      userEmail, setUserEmail,
+      userPassword, setUserPassword
+    } = useUser();
   const [orders, setOrders] = useState([]);
   const [message, setMessage] = useState('');
 

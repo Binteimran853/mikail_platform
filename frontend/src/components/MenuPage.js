@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';  // Import axios to make HTTP requests
 import Cart from './Cart'; // Make sure Cart component is correctly imported
 import menuData from '../menu.json'; // Import the menu.json file
+import { useUser } from '../Context/UserContext';
 import '../styles.css';
 
-const MenuPage = ({ setIsLoggedIn, userRole }) => {
+const MenuPage = () => {
+    const {
+      isLoggedIn, setIsLoggedIn,
+      userRole, setUserRole,
+      
+    } = useUser();
   const [selectedCategory, setSelectedCategory] = useState('Popular Dish');
   const [cart, setCart] = useState([]);
   const [newItemName, setNewItemName] = useState('');
@@ -99,7 +105,7 @@ const MenuPage = ({ setIsLoggedIn, userRole }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // 🔐 Token is added here
+            Authorization: `Bearer ${token}`,  //  Token is added here
             "Content-Type": 'Application/json'
           }
         }
@@ -108,7 +114,7 @@ const MenuPage = ({ setIsLoggedIn, userRole }) => {
 
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // 🔐 Token is added here
+            Authorization: `Bearer ${token}`,  // Token is added here
             "Content-Type": 'Application/json'
           }
         }
@@ -117,7 +123,7 @@ const MenuPage = ({ setIsLoggedIn, userRole }) => {
       console.log("Success:", response2.data);
 
 
-
+     alert('Order Send to supplier')
       console.log('Order sent to supplier:', response);
     } catch (error) {
       console.error('Error sending order:', error.response?.data || error.message);

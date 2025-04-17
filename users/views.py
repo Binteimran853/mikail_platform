@@ -8,37 +8,44 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import ValidationError
 from .models import Order, OrderItem, Offer,SentOrderItem
-from .serializers import OrderSerializer
+from .serializers import OrderSerializer,OfferSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 from collections import defaultdict
+from django.db.models import Q
 User = get_user_model()
 
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
- 
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
         role = request.data.get('role')  # 'buyer' or 'supplier'
 
-        # # Check if the username already exists
         if User.objects.filter(username=username).exists():
             raise ValidationError({"username": "This username is already taken."})
 
-        # Create the user
         try:
-            user = User.objects.create_user(username=username,email=email, password=password)
+            user = User.objects.create_user(username=username, email=email, password=password)
             if role == 'buyer':
-                user.is_buyer = True  # Ensure you have this field in your User model
+                user.is_buyer = True
             elif role == 'supplier':
-                user.is_supplier = True  # Ensure you have this field in your User model
+                user.is_supplier = True
             user.save()
 
-            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+            # Return user details in response
+            return Response({
+                "message": "User created successfully",
+                "user": {
+                    "username": user.username,
+                    "email": user.email,
+                    "role": role,
+                    
+                }
+            }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -48,24 +55,31 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data.get('username')
+        username_or_email = request.data.get('username')
         password = request.data.get('password')
-        
-        user = authenticate(username=username, password=password)
-        if user:
-            # ✅ Generate refresh and access tokens
+
+        user = User.objects.filter(
+            Q(username=username_or_email) | Q(email=username_or_email)
+        ).first()
+
+        if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
             return Response({
                 'message': 'Login successful',
-                'user': user.username,
-                'email': user.email,
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    'role': 'buyer' if getattr(user, 'is_buyer', False) else 'supplier' if getattr(user, 'is_supplier', False) else 'unknown',
+                },
                 'access': str(refresh.access_token),
                 'refresh': str(refresh),
             }, status=status.HTTP_200_OK)
-        
+
         return Response({
             'message': 'Invalid username or password'
         }, status=status.HTTP_401_UNAUTHORIZED)
+
 
 
 # log out functionality
@@ -203,20 +217,25 @@ class GetOrders(APIView):
 class OfferOrderAPIView(APIView):
     def post(self, request, order_id):
         # Supplier submits an offer for a specific order
-        order = get_object_or_404(Order, id=order_id)
-        supplier = request.user
-        price = request.data.get('price')
-        estimated_delivery_time = request.data.get('estimated_delivery_time')
-
+    
+        order = get_object_or_404(Order, id=order_id) #correct
+        supplier = request.user     #correct
+        price = request.data.get('price')  #correct
+        estimated_delivery_time = request.data.get('estimated_delivery_time') #correct
+        buyer=SentOrderItem.objects.filter(supplier=supplier).first().buyer
         # Create a new offer for the order
         offer = Offer.objects.create(
             order=order,
             supplier=supplier,
+            buyer=buyer,
             price=price,
-            estimated_delivery_time=estimated_delivery_time
+            estimated_delivery_time=estimated_delivery_time,
         )
-
-        return Response({"message": "Offer submitted successfully", "offer_id": offer.id}, status=status.HTTP_201_CREATED)
+        # serialized_offer = OfferSerializer(offer)
+        return Response({
+            "message": "Offer submitted successfully",
+            
+        }, status=status.HTTP_201_CREATED)
 
 
 class ConfirmOrderAPIView(APIView):
